@@ -1,2 +1,2 @@
 # E-mail-Classification
-Classify e-mails into 6 classes
+Classify 1700 e-mails into 6 classes

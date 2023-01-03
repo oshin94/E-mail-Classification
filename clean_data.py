@@ -47,4 +47,26 @@ for folder in folders:
                 
                 with open("./data/cleaned/"+folder+"/cleaned_"+file, "w+") as g:
                     g.writelines(lines)
-            
+
+#balancing data and compiling in single csv
+folders = os.listdir("./data/cleaned/")
+print(folders)
+
+df = pd.DataFrame(columns = ['label','text'])
+
+for folder in folders:
+    #print("\n\n\nSampled")
+    sampled_files = os.listdir("./data/cleaned/"+folder+"/")
+    #print(sampled_files, len(sampled_files))
+    if len(sampled_files)<834:
+        t = math.ceil(834/len(sampled_files))
+    else:
+        t=1
+    for file in sampled_files:
+        with open("./data/cleaned/"+folder+"/"+file, "r") as f:
+            data = f.read()
+            for _ in range(t):
+                df = df.append({'label': str(int(folder)-1), 'text' : data}, ignore_index = True)
+print(df)
+df = df.sample(frac = 1)
+df.to_csv("data_balanced.csv", index=0)
